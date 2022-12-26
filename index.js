@@ -26,13 +26,10 @@ app.get("/api", function (req, res) {
     utc: date.toJSON(),
   }
 
-  console.log("empty date response");
-  console.log(response);
   res.json(response);
 })
 
 app.get("/api/:date", function (req, res) {
-  console.log("the request", req.params.date);
   let date = new Date(req.params.date);
   
   // check if its a unix timestamp 
@@ -55,7 +52,6 @@ app.get("/api/:date", function (req, res) {
     };  
   }
   
-  console.log(response);
   res.json(response);
 });
 
