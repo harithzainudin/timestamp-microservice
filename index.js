@@ -18,10 +18,45 @@ app.get("/", function (req, res) {
   res.sendFile(__dirname + '/views/index.html');
 });
 
+app.get("/api", function (req, res) {
+  const date = new Date();
+  
+  const response = {
+    unix: date.getTime(),
+    utc: date.toJSON(),
+  }
 
-// your first API endpoint... 
-app.get("/api/hello", function (req, res) {
-  res.json({greeting: 'hello API'});
+  console.log("empty date response");
+  console.log(response);
+  res.json(response);
+})
+
+app.get("/api/:date", function (req, res) {
+  console.log("the request", req.params.date);
+  let date = new Date(req.params.date);
+  
+  // check if its a unix timestamp 
+  if (isNaN(date)) {
+    date = new Date(Number(req.params.date));
+    if (isNaN(date)) {
+      response = {
+        error: "Invalid Date",
+      }    
+    } else {
+      response = {
+        unix: Number(date.getTime()),
+        utc: date.toUTCString(),
+      };  
+    }
+  } else {
+    response = {
+      unix: Number(date.getTime()),
+      utc: date.toUTCString(),
+    };  
+  }
+  
+  console.log(response);
+  res.json(response);
 });
 
 
